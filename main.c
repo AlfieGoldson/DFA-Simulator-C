@@ -26,7 +26,7 @@ void get_states(char delim, char *buf, char character, int states[])
     }
 }
 
-int test_word(char alphabet[], int state, char accepting_states[], int states, char transitions[5][5], char *word)
+int test_word(char alphabet[], int state, char accepting_states[], int states_count, char transitions[states_count][states_count], char *word)
 {
     if (strlen(word) == 0)
     {
@@ -48,7 +48,7 @@ int test_word(char alphabet[], int state, char accepting_states[], int states, c
         if (new_states[i] == -1)
             break;
 
-        if (test_word(alphabet, new_states[i], accepting_states, states, transitions, word) == 1)
+        if (test_word(alphabet, new_states[i], accepting_states, states_count, transitions, word) == 1)
             return 1;
     }
     return 0;
@@ -74,7 +74,7 @@ int main()
 
     char line[60];
     char alphabet[256];
-    int state;
+    int state, states_count;
     char accepting_states[256];
 
     // Alphabet
@@ -89,9 +89,13 @@ int main()
     fgets(line, 60, fp);
     strcpy(accepting_states, line);
 
+    // Nombre d'États
+    fgets(line, 60, fp);
+    states_count = atoi(line);
+
     // Fonctions de Transition
-    char transitions[5][5];
-    for (int i = 0; i < 5; i++)
+    char transitions[states_count][states_count];
+    for (int i = 0; i < states_count; i++)
     {
         fgets(line, 60, fp);
         strcpy(transitions[i], line);
@@ -99,7 +103,7 @@ int main()
 
     fclose(fp);
     printf("%s => ", mot);
-    printf("%s\n", test_word(alphabet, state, accepting_states, 5, transitions, mot) == 0 ? "NON" : "OUI");
+    printf("%s\n", test_word(alphabet, state, accepting_states, states_count, transitions, mot) == 0 ? "NON" : "OUI");
 
     return 0;
 }
