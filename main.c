@@ -59,8 +59,10 @@ int main()
     char file_name[256];
     char mot[256];
 
-    printf("Nom du fichier - Mot\n");
-    scanf("%s %s", file_name, mot);
+    printf("Nom du fichier décrivant l'automate:\n");
+    scanf("%s", file_name);
+    printf("Mot:\n");
+    scanf("%s", mot);
 
     FILE *fp;
     fp = fopen(file_name, "r");
